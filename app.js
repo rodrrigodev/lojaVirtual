@@ -1,11 +1,12 @@
 const express = require('express')
-const { use } = require('express/lib/router')
 const port = 3000
 const methodOverride = require('method-override')
 
 const app = express()
 const path = require('path')
 const getInfoDatabase = require('./src/utils/getInfoDatabase')
+
+const productsRouter = require('./routes/productsRouter')
 
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
@@ -15,6 +16,8 @@ app.use(express.urlencoded({extended:false}))
 
 app.use(express.json())
 app.use(methodOverride('_method'))
+
+app.use('/products', productsRouter)
 
 app.get('/', (req, res)=>{
     res.render('login')

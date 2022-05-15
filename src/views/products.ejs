@@ -4,18 +4,20 @@
 <body>
 	<h2 class="products-title">Todos os produtos</h2>
 
+	<% products.forEach((product)=>{ %>
 	<div>
 		<section>
-			<a href="/products/detail/ID_PRODUTO">
-				<img src="/images/products/default-image" alt="imagem do produto">
+			<a href="/products/detail/ <%= product.id %>">
+				<img src="/images/products/<%= product.image %>" alt="imagem do produto">
 				
 				<article>
-					<h2>PRECO DO PRODUTO</h2>
-					<span>DISCONTO DO PRODUTO %OFF</span>
-					<p>NOME DO PRODUTO</p>
+					<h2> <%= formatPrice(product.price) %> </h2>
+					<span> <%= product.discount %> % OFF </span>
+					<p> <%= product.name %> </p>
 				</article>
 			</a>
 		</section>
 	</div>
+	<% }) %>
 </body>	
 </html>

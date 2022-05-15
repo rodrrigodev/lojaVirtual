@@ -3,17 +3,17 @@
 <%- include('partials/head', {title: 'Detalhes'}) %>
 <body>
 	<div>
-		<h2>Detalhe do produto: NOME DO PRODUTO</h2>
+		<h2>Detalhe do produto: <%= productFound.name %></h2>
 
 		<div>
-			<img src="/images/products/default-image.png" alt="product image">
-			<p>DESCRICAO DO PRODUTO</p>
+			<img src="/images/products/<%=productFound.image%>" alt="product image">
+			<p><%=productFound.description%></p>
 			
-			<h2>NOME DO PRODUTO</h2>
-			<p>PRECO DO PRODUTO</p>
-			<a href="/products/edit/<%= product.id %>">EDITAR PRODUTO</a>
+			<h2><%=productFound.name%></h2>
+			<p><%=formatPrice(productFound.price)%></p>
+			<a href="/products/edit/<%= productFound.id %>">EDITAR PRODUTO</a>
 			
-			<form action="/products/delete/<%= product.id %>?_method=DELETE" method="POST" style="display: inline-flex">
+			<form action="/products/delete/<%= productFound.id %>?_method=DELETE" method="POST" style="display: inline-flex">
 				<button type="submit">APAGAR</button>
 			</form>
 		</div>
