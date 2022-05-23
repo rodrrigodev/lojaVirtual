@@ -3,7 +3,9 @@ const path = require('path')
 const getInfoDatabase = require('../src/utils/getInfoDatabase')
 const products = getInfoDatabase('products')
 const formatPrice = require('../src/utils/formatPrice')
+const { json } = require('express/lib/response')
 const pathFile = path.join(__dirname, '..', 'src', 'database', 'products.json')
+const SIZE_IMAGE_LIMIT_BYTE = 20000
 const productsController = {
     index: (req, res)=>{
         res.render('products', {products, formatPrice})
@@ -38,7 +40,7 @@ const productsController = {
              price: price,
              discount: discount,
              category: category,
-             Image: productEdit.image
+             image: productEdit.image
          }
          const newProducts = products.map((product)=>{
             if(product.id === productEdit.id){
@@ -59,7 +61,48 @@ const productsController = {
         const pathFile = path.join(__dirname, '..', 'src', 'database', 'products.json')
         fs.writeFileSync(pathFile, productJSON)
         res.redirect('/products')
-    }
+    },
+        create: (req, res)=>{
+            res.render('product-create-form')
+        },
+        save: (req, res)=>{
+            const {name, price, discount, category, description} = req.body
+            const newId = products.length + 2
+            console.log(req.file)
+
+            if(!req.file){
+               return res.send('Voce deve selecionar uma imagem!')
+            }
+
+            const {filename, size} = req.file
+        
+            if(size < SIZE_IMAGE_LIMIT_BYTE){
+              return  res.send("Tamanho de image não permitido!")
+            }
+
+            const extensionImage = filename.split('.')[1]
+
+            if(extensionImage !== 'png' && extensionImage !== 'jpg'){
+                return res.send('Extensão de imagem não permitido!')
+            }
+
+            const newProduct = {
+                id : newId,
+                name,
+                price,
+                discount,
+                category,
+                description,
+                image: filename
+            }
+            
+            products.push(newProduct)
+
+            const newProductJson = JSON.stringify(products, null, ' ')
+            fs.writeFileSync(pathFile, newProductJson)
+            res.redirect('/products')
+        }
+
 }
 
 

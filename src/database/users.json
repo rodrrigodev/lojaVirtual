@@ -1,14 +1,20 @@
 [
- {
-  "id": 1,
-  "name": "Cassio Oliveira Silva",
-  "email": "cassio@digitalhouse.com",
-  "password": "123456"
- },
- {
-  "id": 2,
-  "name": "Jessica Castro",
-  "email": "jessica@digitalhouse.com",
-  "password": "123456"
- }
-]
+    {
+     "id": 1,
+     "name": "Cassio Oliveira Silva",
+     "email": "cassio@digitalhouse.com",
+     "password": "123456"
+    },
+    {
+     "id": 2,
+     "name": "Jessica Castro",
+     "email": "jessica@digitalhouse.com",
+     "password": "123456"
+    },
+    {
+    "id": 3,
+     "name": "Rodrigo Santos",
+     "email": "rodrigo@email.com",
+     "password": "123456"
+    }
+   ]
