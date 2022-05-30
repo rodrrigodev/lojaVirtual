@@ -5,7 +5,7 @@
 	<div>
 		<h2>Você está editando: <%=productFound.name %></h2>
 
-		<form action="/products/edit/<%=productFound.id%>?_method=put" method="POST">
+		<form action="/products/edit/<%=productFound.id%>?_method=put" method="POST" enctype="multipart/form-data">
 			<div>
 				<label for="name">Nome do produto:</label>
 				<input type="text" id="name" name="name" required>
@@ -34,6 +34,9 @@
 				<label for="description">Descrição:</label>
 				<textarea name="description" id="description" cols="80" rows="10"> <%= productFound.description%></textarea>
 			</div>
+
+			<label for="image">Mudar Imagem</label>
+				<input type="file" name="image" id="image" >
 
 			<div>
 				<button type="submit">Salvar produto</button>

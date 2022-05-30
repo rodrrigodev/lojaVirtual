@@ -8,7 +8,8 @@ const pathFile = path.join(__dirname, '..', 'src', 'database', 'products.json')
 const SIZE_IMAGE_LIMIT_BYTE = 20000
 const productsController = {
     index: (req, res)=>{
-        res.render('products', {products, formatPrice})
+        const userSession = req.session.user
+        res.render('products', {products, formatPrice, userSession})
     },
 
     details: (req, res)=>{
@@ -29,10 +30,20 @@ const productsController = {
 
     update: (req, res)=>{
         const {id} = req.params
-        const {name, description, price, discount, category} =  req.body
+        const {name, description, price, discount, category, image} =  req.body
         const productEdit = products.find((product=>{
             return product.id === Number(id)  
          }))
+
+         const filenameOriginal = productEdit.image
+         const imageName = req.file.filename == false?filenameOriginal:filename
+
+         if(imageName !== jpg && imageName !== png){
+             return res.send('Entensão de imagem não permitida! volte e selecione outra imagem.')
+         }
+         if(imageName > SIZE_IMAGE_LIMIT_BYTE){
+             return res.send('Tamanho de imagem não permitido!')
+         }
          const productEdited = {
              id: productEdit.id,
              name: name,
@@ -40,8 +51,9 @@ const productsController = {
              price: price,
              discount: discount,
              category: category,
-             image: productEdit.image
+             image: imageName
          }
+         
          const newProducts = products.map((product)=>{
             if(product.id === productEdit.id){
                 return {...productEdited}

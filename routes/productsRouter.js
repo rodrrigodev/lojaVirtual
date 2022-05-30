@@ -6,19 +6,22 @@ const productsController = require('../controllers/productsControllers')
 
 const multerConfig = require('../src/utils/multer')
 
-router.get('/', productsController.index)
+const auth = require('../middlewares/auth')
 
-router.get('/detail/:id', productsController.details)
 
-router.delete('/delete/:id', productsController.delete)
+router.get('/', auth, productsController.index)
 
-router.get('/edit/:id', productsController.edit)
+router.get('/detail/:id', auth, productsController.details)
 
-router.put('/edit/:id', productsController.update)
+router.delete('/delete/:id', auth, productsController.delete)
 
-router.get('/create', productsController.create)
+router.get('/edit/:id', auth, productsController.edit)
 
-router.post('/', multerConfig.single('image'), productsController.save) // localhost:3000/products/
+router.put('/edit/:id', multerConfig.single('image'), auth, productsController.update)
+
+router.get('/create', auth, productsController.create)
+
+router.post('/', multerConfig.single('image'), auth, productsController.save) // localhost:3000/products/
 
 
 
