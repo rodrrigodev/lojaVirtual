@@ -43,6 +43,15 @@
 			<div>
 				<button type="submit">Salvar produto</button>
 			</div>
+
+			<% if(typeof errors !== 'undefined') { %>
+				<ul>
+					<% errors.forEach(error => { %>
+						<li><%=error.message %></li>
+					<%})%>
+				</ul>
+				<%}%>
+
 		</form>
 	</div>
 </body>	

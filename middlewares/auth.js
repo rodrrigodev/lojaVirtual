@@ -1,5 +1,5 @@
 function auth(req, res, next){
-        const userIsLogged = req.session.user
+        const userIsLogged = Boolean(req.session.user) || Boolean(req.user)
         if(!userIsLogged){
            return res.send('Você não esta logado no sistema')
         }else{

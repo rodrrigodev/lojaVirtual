@@ -6,10 +6,13 @@ const formatPrice = require('../src/utils/formatPrice')
 const { json } = require('express/lib/response')
 const pathFile = path.join(__dirname, '..', 'src', 'database', 'products.json')
 const SIZE_IMAGE_LIMIT_BYTE = 20000
+const productsCreateShemas =  require('../Schemas/productsCreateSchemas')
+const createProductSchema = require('../Schemas/productsCreateSchemas')
 const productsController = {
     index: (req, res)=>{
-        const userSession = req.session.user
+        const userSession = req.user
         res.render('products', {products, formatPrice, userSession})
+        //	<h1>Bem vindo(a) <strong><%=userSession.name%></strong></h1> colocar em 'products.ejs'
     },
 
     details: (req, res)=>{
@@ -80,7 +83,12 @@ const productsController = {
         save: (req, res)=>{
             const {name, price, discount, category, description} = req.body
             const newId = products.length + 2
-            console.log(req.file)
+
+            const {error} = createProductSchema.validate(req.body, { abortEarly: true })
+            console.log(error)
+            if(error){
+                return res.render('product-create-form', {errors: error.details})
+            }
 
             if(!req.file){
                return res.send('Voce deve selecionar uma imagem!')

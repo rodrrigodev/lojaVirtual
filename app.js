@@ -14,16 +14,24 @@ const session = require('express-session')
 const log = require('./middlewares/log')
 const authMiddleware = require('./middlewares/auth')
 
+const cookieParser = require('cookie-parser')
+
+const cookieMiddlewares = require('./middlewares/cookie')
+
 app.set('view engine', 'ejs')
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.set('views', path.join(__dirname, 'src', 'views'))
 app.use(express.urlencoded({extended:false}))
 
+app.use(cookieParser())
+
 app.use(express.json())
 app.use(methodOverride('_method'))
 
 app.use(session({secret:'secret message'}))
+
+app.use(cookieMiddlewares)
 
 app.use(log)
 
